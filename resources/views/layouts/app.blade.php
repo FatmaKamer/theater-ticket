@@ -18,13 +18,44 @@
     <!-- ⭐ Font Awesome (opsiyonel, ikonlar için) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <link rel="stylesheet" href="{{ asset('css/theater.css') }}">
+
     <style>
+
+        /* Navbar'ı düzenle */
+        .navbar {
+            background:rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #C04060, #800020);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Kartlar */
+        .card {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border: none !important;
+            border-radius: 20px !important;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        /* Ana içerik */
+        main.py-4 {
+            min-height: calc(100vh - 80px);
+        }
+        
         body {
             font-family: 'Nunito', sans-serif;
         }
     </style>
 </head>
-<body>
+<body class="theater-bg">
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -44,17 +75,21 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
-                        @guest
+                        @guest <!--kullanıcı giriş yapmamışsa gösterilir-->
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Giriş Yap') }}</a>
-                                </li>
+            <a class="nav-link btn-theater-sm" href="{{ route('login') }}">
+                <i class="fas fa-sign-in-alt"></i> Giriş Yap
+            </a>
+        </li>
                             @endif
 
                             @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Kayıt Ol') }}</a>
-                                </li>
+                                <li class="nav-item ms-2">
+            <a class="nav-link btn-theater-outline-sm" href="{{ route('register') }}">
+                <i class="fas fa-user-plus"></i> Kayıt Ol
+            </a>
+        </li>
                             @endif
                         @else
                             <li class="nav-item dropdown">

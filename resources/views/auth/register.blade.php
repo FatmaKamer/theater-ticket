@@ -1,76 +1,90 @@
+<!-- resources/views/auth/register.blade.php -->
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Kayıt Ol') }}</div>
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+    <div class="row justify-content-center w-100">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-transparent border-0 text-center pt-4">
+                    <!-- 🎭 Tiyatro İkonu -->
+                    <i class="fas fa-ticket-alt theater-icon"></i>
+                    <h1 class="theater-title" style="font-size: 2.2rem;">
+                        <span>Kayıt</span> Ol
+                    </h1>
+                    <p class="text-muted">Yeni bir hesap oluşturun</p>
+                </div>
 
-                <div class="card-body">
+                <div class="card-body p-4">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
-                        <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Ad Soyad') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" 
-                                       name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                        <!-- Ad Soyad -->
+                        <div class="mb-3">
+                            <label for="name" class="form-label fw-bold">Ad Soyad</label>
+                            <input id="name" type="text" 
+                                   class="login-input form-control @error('name') is-invalid @enderror" 
+                                   name="name" value="{{ old('name') }}" 
+                                   required autocomplete="name" autofocus
+                                   placeholder="Ahmet Yılmaz">
+                            @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Adresi') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" 
-                                       name="email" value="{{ old('email') }}" required autocomplete="email">
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-bold">Email Adresi</label>
+                            <input id="email" type="email" 
+                                   class="login-input form-control @error('email') is-invalid @enderror" 
+                                   name="email" value="{{ old('email') }}" 
+                                   required autocomplete="email"
+                                   placeholder="ornek@email.com">
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
 
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Şifre') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" 
-                                       name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                        <!-- Şifre -->
+                        <div class="mb-3">
+                            <label for="password" class="form-label fw-bold">Şifre</label>
+                            <input id="password" type="password" 
+                                   class="login-input form-control @error('password') is-invalid @enderror" 
+                                   name="password" required autocomplete="new-password"
+                                   placeholder="•••••••• (min 6 karakter)">
+                            @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
 
-                        <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Şifre Tekrar') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" 
-                                       name="password_confirmation" required autocomplete="new-password">
-                            </div>
+                        <!-- Şifre Tekrar -->
+                        <div class="mb-3">
+                            <label for="password-confirm" class="form-label fw-bold">Şifre Tekrar</label>
+                            <input id="password-confirm" type="password" 
+                                   class="login-input form-control" 
+                                   name="password_confirmation" required autocomplete="new-password"
+                                   placeholder="••••••••">
                         </div>
 
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Kayıt Ol') }}
-                                </button>
-                            </div>
+                        <!-- Kayıt Ol Butonu - BORDO (btn-theater kullanıyor!) -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn-theater w-100">
+                                <i class="fas fa-user-plus"></i> Kayıt Ol
+                            </button>
+                        </div>
+
+                        <!-- Zaten hesabın var mı? -->
+                        <div class="text-center mt-3">
+                            <span class="text-muted">Zaten hesabın var mı?</span>
+                            <a class="login-link" href="{{ route('login') }}">
+                                Giriş Yap
+                            </a>
                         </div>
                     </form>
                 </div>

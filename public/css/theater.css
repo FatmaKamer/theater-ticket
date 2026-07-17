@@ -1,0 +1,171 @@
+/* public/css/theater.css */
+
+/* 🌟 TÜM PROJENİN ORTAK STİLLERİ */
+
+/* 1. GENEL AYARLAR */
+body {
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* 2. ARKA PLAN (Açık Bordo) */
+.theater-bg {
+    background: linear-gradient(135deg, #C04060 0%, #800020 100%);
+}
+
+.theater-bg-light {
+    background: linear-gradient(135deg, #D4A0A0 0%, #C04060 100%);
+}
+
+/* 3. ANA SAYFA KARTI */
+.welcome-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    padding: 60px 50px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 700px;
+    width: 90%;
+    text-align: center;
+    transition: transform 0.3s ease;
+    margin: 0 auto;
+}
+
+.welcome-card:hover {
+    transform: translateY(-5px);
+}
+
+/* 4. BAŞLIKLAR */
+.theater-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #800020;
+    margin-bottom: 15px;
+    letter-spacing: -1px;
+}
+
+.theater-title span {
+    background: linear-gradient(135deg, #C04060, #800020);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.theater-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1.8;
+}
+
+/* 5. BUTONLAR */
+.btn-theater {
+    background: linear-gradient(135deg,#C04060, #800020);
+    border: none;
+    color: white;
+    padding: 14px 40px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-theater:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(128, 0, 32, 0.4);
+    color: white;
+}
+
+.btn-theater-outline {
+    background: transparent;
+    border: 2px solid #800020;
+    color: #800020;
+    padding: 12px 38px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-theater-outline:hover {
+    background: #800020;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(128, 0, 32, 0.3);
+}
+
+/* 6. İKONLAR */
+.theater-icon {
+    font-size: 80px;
+    color: #800020;
+    margin-bottom: 20px;
+    display: block;
+    animation: float 3s ease-in-out infinite;
+}
+
+/* 7. ANİMASYON */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+/* 8. MOBİL UYUM */
+@media (max-width: 600px) {
+    .welcome-card {
+        padding: 40px 25px;
+        margin: 20px;
+    }
+    .theater-title {
+        font-size: 2.5rem;
+    }
+    .theater-icon {
+        font-size: 60px;
+    }
+    .btn-theater, .btn-theater-outline {
+        padding: 10px 25px;
+        font-size: 0.95rem;
+        width: 100%;
+    }
+}
+
+/* 9. GİRİŞ FORMU */
+ 
+.login-input {
+    border: 2px solid #eee;
+    border-radius: 12px;
+    padding: 12px 18px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+ 
+.login-input:focus {
+    border-color: #C04060;
+    box-shadow: 0 0 0 0.2rem rgba(192, 64, 96, 0.15);
+    outline: none;
+}
+ 
+.login-link {
+    color: #800020;
+    font-weight: 600;
+    text-decoration: none;
+}
+ 
+.login-link:hover {
+    color: #C04060;
+    text-decoration: underline;
+}
+ 
+.login-link-muted {
+    color: #999;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+ 
+.login-link-muted:hover {
+    color:#800020;
+}
