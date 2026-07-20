@@ -18,3 +18,8 @@ Route::middleware(['auth'])->group(function () {
     })->name('home');
 
 });
+
+// Test route'u (admin middleware testi)
+Route::middleware(['auth', 'admin'])->get('/admin-test', function () {
+    return 'Admin middleware çalışıyor!';
+});
