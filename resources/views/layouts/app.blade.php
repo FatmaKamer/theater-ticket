@@ -21,7 +21,6 @@
     <link rel="stylesheet" href="{{ asset('css/theater.css') }}">
 
     <style>
-
         /* Navbar'ı düzenle */
         .navbar {
             background:rgba(255, 255, 255, 0.95) !important;
@@ -75,21 +74,21 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
-                        @guest <!--kullanıcı giriş yapmamışsa gösterilir-->
+                        @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-            <a class="nav-link btn-theater-sm" href="{{ route('login') }}">
-                <i class="fas fa-sign-in-alt"></i> Giriş Yap
-            </a>
-        </li>
+                                    <a class="nav-link btn-theater-sm" href="{{ route('login') }}">
+                                        <i class="fas fa-sign-in-alt"></i> Giriş Yap
+                                    </a>
+                                </li>
                             @endif
 
                             @if (Route::has('register'))
                                 <li class="nav-item ms-2">
-            <a class="nav-link btn-theater-outline-sm" href="{{ route('register') }}">
-                <i class="fas fa-user-plus"></i> Kayıt Ol
-            </a>
-        </li>
+                                    <a class="nav-link btn-theater-outline-sm" href="{{ route('register') }}">
+                                        <i class="fas fa-user-plus"></i> Kayıt Ol
+                                    </a>
+                                </li>
                             @endif
                         @else
                             <li class="nav-item dropdown">
@@ -99,9 +98,15 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        {{ __('Çıkış Yap') }}
+                                    <!-- ⭐ Dashboard Linki (Ekle) -->
+                                    <a class="dropdown-item" href="{{ route('home') }}">
+                                        <i class="fas fa-home"></i> Dashboard
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    
+                                    <!-- ⭐ Logout - FORTIFY UYUMLU (action'ı değişti) -->
+                                    <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <i class="fas fa-sign-out-alt"></i> {{ __('Çıkış Yap') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

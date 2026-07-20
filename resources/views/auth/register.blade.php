@@ -16,6 +16,16 @@
                 </div>
 
                 <div class="card-body p-4">
+                    <!-- ⚠️ Hata Mesajları -->
+                    @if ($errors->any())
+                        <div class="alert alert-danger text-start">
+                            @foreach ($errors->all() as $error)
+                                <div>{{ $error }}</div>
+                            @endforeach
+                        </div>
+                    @endif
+
+                    <!-- 📝 Kayıt Formu - FORTIFY UYUMLU -->
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
@@ -55,7 +65,7 @@
                             <input id="password" type="password" 
                                    class="login-input form-control @error('password') is-invalid @enderror" 
                                    name="password" required autocomplete="new-password"
-                                   placeholder="•••••••• (min 6 karakter)">
+                                   placeholder="•••••••• (min 8 karakter)">
                             @error('password')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -72,7 +82,7 @@
                                    placeholder="••••••••">
                         </div>
 
-                        <!-- Kayıt Ol Butonu - BORDO (btn-theater kullanıyor!) -->
+                        <!-- Kayıt Ol Butonu -->
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn-theater w-100">
                                 <i class="fas fa-user-plus"></i> Kayıt Ol

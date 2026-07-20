@@ -35,6 +35,36 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
         Fortify::redirectUserForTwoFactorAuthenticationUsing(RedirectIfTwoFactorAuthenticatable::class);
 
+        // Login sayfası
+        Fortify::loginView(function () {
+            return view('auth.login');
+        });
+
+        // Register sayfası
+        Fortify::registerView(function () {
+            return view('auth.register');
+        });
+
+        // Şifre sıfırlama email gönderme sayfası
+        Fortify::requestPasswordResetLinkView(function () {
+            return view('auth.passwords.email');
+        });
+
+        // Şifre sıfırlama sayfası
+        Fortify::resetPasswordView(function ($request) {
+            return view('auth.passwords.reset', ['request' => $request]);
+        });
+
+        // Email doğrulama sayfası
+        Fortify::verifyEmailView(function () {
+            return view('auth.verify');
+        });
+
+        // Şifre onaylama sayfası (2FA veya şifre tekrar)
+        Fortify::confirmPasswordView(function () {
+            return view('auth.passwords.confirm');
+        });
+
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
 
