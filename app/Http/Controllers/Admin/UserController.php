@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller {
 //php artisan make:controller Admin/UserController --resource oluştururken resource yazdığım için index create store gibi fonksiyonlar kendisi geldi.
@@ -13,6 +15,8 @@ class UserController extends Controller {
 
     public function index(Request $request)
     {
+        $this->authorize('viewAny', User::class);
+
         $search = $request->get('search');
         
         $users = User::when($search, function ($query, $search) {
@@ -28,6 +32,7 @@ class UserController extends Controller {
      */
     public function create()
     {
+        $this->authorize('create', User::class);
         return view('admin.users.create');
     }
 
@@ -36,6 +41,8 @@ class UserController extends Controller {
      */
     public function store(Request $request)
     {
+        $this->authorize('create', User::class);
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
@@ -57,9 +64,11 @@ class UserController extends Controller {
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
-        //
+        $this->authorize('view', $user);
+        
+        return view('admin.users.show', compact('user'));
     }
 
     /**
@@ -67,6 +76,7 @@ class UserController extends Controller {
      */
     public function edit(User $user)
     {
+        $this->authorize('update', $user);
         return view('admin.users.edit', compact('user'));
     }
 
@@ -75,6 +85,7 @@ class UserController extends Controller {
      */
     public function update(Request $request, User $user)
     {
+        $this->authorize('update', $user);
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
@@ -103,6 +114,7 @@ class UserController extends Controller {
      */
     public function destroy(User $user)
     {
+        $this->authorize('delete',$user);
         if ($user->id === auth()->id()) {
             return redirect()->route('admin.users.index')
                              ->with('error', 'Kendi hesabınızı silemezsiniz.');
