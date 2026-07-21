@@ -91,30 +91,38 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" 
-                                   data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
+    <li class="nav-item dropdown">
+        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" 
+           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+            {{ Auth::user()->name }}
+        </a>
 
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <!-- ⭐ Dashboard Linki (Ekle) -->
-                                    <a class="dropdown-item" href="{{ route('home') }}">
-                                        <i class="fas fa-home"></i> Dashboard
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    
-                                    <!-- ⭐ Logout - FORTIFY UYUMLU (action'ı değişti) -->
-                                    <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        <i class="fas fa-sign-out-alt"></i> {{ __('Çıkış Yap') }}
-                                    </a>
+        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <!-- ⭐ Dashboard Linki (Herkes için) -->
+            <a class="dropdown-item" href="{{ route('dashboard') }}">
+                <i class="fas fa-home"></i> Giriş Sayfası
+            </a>
+            
+            <!-- ⭐ Admin Paneli Linki (Sadece Adminler için) -->
+            @if(Auth::check() && Auth::user()->isAdmin())
+                <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                    <i class="fas fa-user-shield"></i> Admin Paneli
+                </a>
+                <div class="dropdown-divider"></div>
+            @endif
+            
+            <!-- ⭐ Çıkış Yap -->
+            <a class="dropdown-item" href="{{ route('logout') }}"
+               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="fas fa-sign-out-alt"></i> {{ __('Çıkış Yap') }}
+            </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
+        </div>
+    </li>
+@endguest
                     </ul>
                 </div>
             </div>

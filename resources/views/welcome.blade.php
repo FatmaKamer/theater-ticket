@@ -56,6 +56,11 @@
                 <a href="{{ route('home') }}" class="btn-theater">
                     <i class="fas fa-ticket-alt"></i> Dashboard
                 </a>
+                @if(Auth::user()->isAdmin())
+                    <a class="btn-theater" href="{{ route('admin.dashboard') }}">
+                        <i class="fas fa-ticket-alt"></i> Admin Paneli
+                    </a>
+                @endif
             @else
                 <a href="{{ route('login') }}" class="btn-theater">
                     <i class="fas fa-sign-in-alt"></i> Giriş Yap

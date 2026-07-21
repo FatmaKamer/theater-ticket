@@ -15,8 +15,8 @@ class UserController extends Controller {
 
     public function index(Request $request)
     {
-        $this->authorize('viewAny', User::class);
-
+        $this->authorize('viewAny', User::class); //controllerda bu şekilde yazmak yerine bir authorize yapısı sayesinde index fonksiyonunun 
+        //viewAny fonksiyonuyla bağlantılı olduğunu laravel anlayabilir
         $search = $request->get('search');
         
         $users = User::when($search, function ($query, $search) {
@@ -44,21 +44,22 @@ class UserController extends Controller {
         $this->authorize('create', User::class);
 
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8|confirmed',
-            'role' => 'required|in:user,admin',
-        ]);
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users',
+        'password' => 'required|min:8|confirmed',
+        'role' => 'required|in:user,admin',
+    ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
-        ]);
 
-        return redirect()->route('admin.users.index')
-                         ->with('success', 'Kullanıcı başarıyla oluşturuldu.');
+    User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'role' => $request->role, // ⭐ Burada role geliyor, kontrol et
+    ]);
+
+    return redirect()->route('admin.users.index')
+                     ->with('success', 'Kullanıcı başarıyla oluşturuldu.');
     }
 
     /**
@@ -86,6 +87,7 @@ class UserController extends Controller {
     public function update(Request $request, User $user)
     {
         $this->authorize('update', $user);
+        
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
@@ -115,6 +117,7 @@ class UserController extends Controller {
     public function destroy(User $user)
     {
         $this->authorize('delete',$user);
+
         if ($user->id === auth()->id()) {
             return redirect()->route('admin.users.index')
                              ->with('error', 'Kendi hesabınızı silemezsiniz.');
