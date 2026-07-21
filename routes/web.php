@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,7 +20,10 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
-// Test route'u (admin middleware testi)
-Route::middleware(['auth', 'admin'])->get('/admin-test', function () {
-    return 'Admin middleware çalışıyor!';
+Route::middleware(['auth','admin'])->prefix('admin')->name('admin.')->group(function (){
+    Route::get('/',function () {
+        return view('admin.dashboaard');
+    })->name('dashboard');
+
+    Route::resource('users', UserController::class);
 });
