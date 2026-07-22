@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\VenueController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,4 +27,6 @@ Route::middleware(['auth','admin'])->prefix('admin')->name('admin.')->group(func
     })->name('dashboard');
 
     Route::resource('users', UserController::class);
+
+    Route::resource('venues', VenueController::class);
 });
