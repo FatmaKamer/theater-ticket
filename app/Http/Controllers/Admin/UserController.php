@@ -6,16 +6,23 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+//use Illuminate\Routing\Attributes\Controllers\Authorize;
+use App\Http\Requests\Admin\StoreUserRequest;
+use App\Http\Requests\Admin\UpdateUserRequest;
 
+//#[Authorize(User::class)]
 class UserController extends Controller {
 //php artisan make:controller Admin/UserController --resource oluştururken resource yazdığım için index create store gibi fonksiyonlar kendisi geldi.
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct()
+    {
+        // User modeli için policy'yi otomatik eşleştir
+        // Route parametresi 'user' ile eşleşmeli
+        $this->authorizeResource(User::class, 'user');
+    }
 
     public function index(Request $request)
     {
-        $this->authorize('viewAny', User::class); //controllerda bu şekilde yazmak yerine bir authorize yapısı sayesinde index fonksiyonunun 
+        //$this->authorize('viewAny', User::class); //controllerda bu şekilde yazmak yerine bir authorize yapısı sayesinde index fonksiyonunun 
         //viewAny fonksiyonuyla bağlantılı olduğunu laravel anlayabilir
         $search = $request->get('search');
         
@@ -32,33 +39,22 @@ class UserController extends Controller {
      */
     public function create()
     {
-        $this->authorize('create', User::class);
         return view('admin.users.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $this->authorize('create', User::class);
+        $users = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
+        ]);
 
-        $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users',
-        'password' => 'required|min:8|confirmed',
-        'role' => 'required|in:user,admin',
-    ]);
-
-
-    User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-        'role' => $request->role, // ⭐ Burada role geliyor, kontrol et
-    ]);
-
-    return redirect()->route('admin.users.index')
+        return redirect()->route('admin.users.index')
                      ->with('success', 'Kullanıcı başarıyla oluşturuldu.');
     }
 
@@ -66,9 +62,7 @@ class UserController extends Controller {
      * Display the specified resource.
      */
     public function show(User $user)
-    {
-        $this->authorize('view', $user);
-        
+    {        
         return view('admin.users.show', compact('user'));
     }
 
@@ -77,24 +71,14 @@ class UserController extends Controller {
      */
     public function edit(User $user)
     {
-        $this->authorize('update', $user);
         return view('admin.users.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $this->authorize('update', $user);
-        
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|min:8|confirmed',
-            'role' => 'required|in:user,admin',
-        ]);
-
         $data = [
             'name' => $request->name,
             'email' => $request->email,
@@ -116,8 +100,7 @@ class UserController extends Controller {
      */
     public function destroy(User $user)
     {
-        $this->authorize('delete',$user);
-
+        
         if ($user->id === auth()->id()) {
             return redirect()->route('admin.users.index')
                              ->with('error', 'Kendi hesabınızı silemezsiniz.');
