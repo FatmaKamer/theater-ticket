@@ -25,7 +25,7 @@ class UpdateUserRequest extends FormRequest
     {
         $userId = $this->route('user')->id;
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|min:10|max:255',
             'email' => [
                 'required',
                 'email',
@@ -41,6 +41,7 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name.required' => 'İsim alanı zorunludur.',
+            'name.min' => 'İsim alanı en az 10 karakter olmak zorunludur.',
             'email.required' => 'Email alanı zorunludur.',
             'email.email' => 'Geçerli bir email adresi giriniz.',
             'email.unique' => 'Bu email adresi zaten kullanılıyor.',
