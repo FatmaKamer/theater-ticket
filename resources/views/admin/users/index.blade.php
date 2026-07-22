@@ -54,6 +54,7 @@
                             <th>Email</th>
                             <th>Rol</th>
                             <th>Kayıt Tarihi</th>
+                            <th>Güncellenme Tarihi</th>
                             <th>İşlemler</th>
                         </tr>
                     </thead>
@@ -69,6 +70,7 @@
                                 </span>
                             </td>
                             <td>{{ $user->created_at->format('d.m.Y H:i') }}</td>
+                            <td>{{ $user->updated_at->format('d.m.Y H:i') }}</td>
                             <td>
                                 <a href="{{ route('admin.users.edit', $user) }}" 
                                    class="btn-theater-outline" style="padding: 5px 15px; font-size: 0.9rem;">
