@@ -59,7 +59,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($venues as $venue)
+                        @foreach($venues as $venue)
                         <tr>
                             <td>{{ $venue->id }}</td>
                             <td>
@@ -97,14 +97,14 @@
                                 </form>
                             </td>
                         </tr>
-                        @empty
+                        
                         <tr>
                             <td colspan="7" class="text-center">
                                 <i class="fas fa-theater-masks" style="font-size: 48px; color: #ccc;"></i>
                                 <p class="mt-2">Henüz salon eklenmemiş.</p>
                             </td>
                         </tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
             </div>

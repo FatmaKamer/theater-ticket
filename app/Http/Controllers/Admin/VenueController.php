@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 //use Illuminate\Routing\Attributes\Controllers\Authorize;
 use App\Http\Requests\Admin\StoreVenueRequest;
 use App\Http\Requests\Admin\UpdateVenueRequest;
-
+use Illuminate\Support\Facades\Storage;
 class VenueController extends Controller
 {
     public function __construct()
@@ -25,6 +25,7 @@ class VenueController extends Controller
         
         $venues = Venue::search($search)->paginate(10);
 
+
         return view('admin.venues.index', compact('venues', 'search'));
     }
 
@@ -33,7 +34,7 @@ class VenueController extends Controller
      */
     public function create()
     {
-        return view('admin.venues.index');
+        return view('admin.venues.create');
     }
 
     /**
@@ -49,7 +50,6 @@ class VenueController extends Controller
         }
 
         Venue::create($data);
-
         return redirect()->route('admin.venues.index')
                          ->with('success', 'Salon başarıyla oluşturuldu.');
     }
@@ -65,7 +65,7 @@ class VenueController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Venue $venue)
     {
         return view('admin.venues.edit', compact('venue'));
     }
@@ -73,7 +73,7 @@ class VenueController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateVenueRequest $request, string $id)
+    public function update(UpdateVenueRequest $request, Venue $venue)
     {
         $data = $request->validated();
 
@@ -94,9 +94,10 @@ class VenueController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Venue $venue)
     {
         if ($venue->image) {
+
             Storage::disk('public')->delete($venue->image);
         }
 
