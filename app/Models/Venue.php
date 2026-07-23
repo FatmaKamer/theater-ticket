@@ -1,4 +1,3 @@
-// app/Models/Venue.php
 <?php
 
 namespace App\Models;
@@ -32,7 +31,7 @@ class Venue extends Model
         return $query->where('is_active', true);
     }
 
-    // Arama
+    // Arama (listeleme için)
     public function scopeSearch($query, $search)
     {
         return $query->when($search, function ($query, $search) {
