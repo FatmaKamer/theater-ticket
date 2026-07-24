@@ -30,7 +30,7 @@ class UpdatePlayRequest extends FormRequest
             'director' => 'nullable|string|max:255',
             'cast' => 'nullable|string',
             'venue_id' => 'required|exists:venues,id',
-            'is_active' => 'boolean',
+            'is_active' => 'required|boolean',
             'ticket_price' => 'required|numeric|min:0',
             'image' => 'nullable|image|max:2048',
         ];

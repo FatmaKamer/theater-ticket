@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Rules\ActiveVenue;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -29,7 +30,7 @@ class StorePlayRequest extends FormRequest
             'author' => 'nullable|string|max:255',
             'director' => 'nullable|string|max:255',
             'cast' => 'nullable|string',
-            'venue_id' => 'required|exists:venues,id|active_venue', // Custom rule
+            'venue_id' => ['required', 'exists:venues,id', new ActiveVenue], // Custom rule
             'is_active' => 'required|boolean',
             'ticket_price' => 'required|numeric|min:0',
             'image' => 'nullable|image|max:2048',
