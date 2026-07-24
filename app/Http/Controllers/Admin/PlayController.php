@@ -99,6 +99,20 @@ class PlayController extends Controller
         // Oyunu güncelle
         $play->update($data);
 
+        if (!$play->is_active) {
+            $venue = Venue::find($play->venue_id);
+            if ($venue && !$venue->hasActivePlay()) {
+                $venue->update(['is_active' => true]);
+            }
+        }
+
+        if ($play->is_active) {
+            $venue = Venue::find($play->venue_id);
+            if ($venue && $venue->is_active) {
+                $venue->update(['is_active' => false]);
+            }
+        }
+
         // Eğer salon değiştiyse, eski salonu kontrol et
         if ($oldVenueId != $request->venue_id) {
             // Eski salonda başka oyun var mı?
