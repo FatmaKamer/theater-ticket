@@ -10,16 +10,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 // Dashboard (giriş yapmış kullanıcılar için)
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('home');
-    })->name('dashboard');
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    Route::get('/home', function () {
-        return view('home');
-    })->name('home');
-
+    Route::get('/play/{play}', [HomeController::class, 'show'])->name('play.show');
 });
 
 Route::middleware(['auth','admin'])->prefix('admin')->name('admin.')->group(function (){
