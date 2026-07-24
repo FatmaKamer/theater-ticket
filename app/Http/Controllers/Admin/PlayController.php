@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StorePlayRequest;
+use App\Http\Requests\Admin\UpdatePlayRequest;
 use App\Models\Play;
 use App\Models\Venue;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PlayController extends Controller
 {
@@ -19,8 +22,8 @@ class PlayController extends Controller
     public function index(Request $request)
     {
         $search = request()->get('search');
-        $plays = Play::with('venue')->seach($search)->paginate(10);
-        return view('admin.play.index', compact('plays', 'search'));
+        $plays = Play::with('venue')->search($search)->paginate(10);
+        return view('admin.plays.index', compact('plays', 'search'));
     }
 
     /**
@@ -29,7 +32,7 @@ class PlayController extends Controller
     public function create()
     {
         $venues = Venue::active()->get();
-        return view('admin.play.create',compact('venues'));
+        return view('admin.plays.create',compact('venues'));
     }
 
     /**
