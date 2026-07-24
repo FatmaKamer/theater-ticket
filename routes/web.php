@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PlayController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\UserController;
@@ -29,4 +30,7 @@ Route::middleware(['auth','admin'])->prefix('admin')->name('admin.')->group(func
     Route::resource('users', UserController::class);
 
     Route::resource('venues', VenueController::class);
+
+    Route::resource('plays', PlayController::class);
+
 });
