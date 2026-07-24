@@ -14,7 +14,7 @@
     <!-- Arama -->
     <form method="GET" class="mb-3">
         <div class="input-group">
-            <input type="text" name="search" class="form-control login-input" 
+            <input type="text" name="search" class="form-control login-input"
                    placeholder="Salon ara..." value="{{ request('search') }}">
             <button class="btn-theater" type="submit">
                 <i class="fas fa-search"></i> Ara
@@ -59,13 +59,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($venues as $venue)
+                        @forelse($venues as $venue)
                         <tr>
                             <td>{{ $venue->id }}</td>
                             <td>
                                 @if($venue->image)
-                                    <img src="{{ asset('storage/' . $venue->image) }}" 
-                                         alt="{{ $venue->name }}" 
+                                    <img src="{{ asset('storage/' . $venue->image) }}"
+                                         alt="{{ $venue->name }}"
                                          style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
                                 @else
                                     <span class="text-muted">Resim yok</span>
@@ -80,16 +80,16 @@
                                 </span>
                             </td>
                             <td>
-                                <a href="{{ route('admin.venues.edit', $venue) }}" 
+                                <a href="{{ route('admin.venues.edit', $venue) }}"
                                    class="btn-theater-outline" style="padding: 5px 15px; font-size: 0.9rem;">
                                     <i class="fas fa-edit"></i> Düzenle
                                 </a>
-                                
-                                <form action="{{ route('admin.venues.destroy', $venue) }}" 
+
+                                <form action="{{ route('admin.venues.destroy', $venue) }}"
                                       method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn-theater-outline" 
+                                    <button type="submit" class="btn-theater-outline"
                                             style="padding: 5px 15px; font-size: 0.9rem; border-color: #dc3545; color: #dc3545;"
                                             onclick="return confirm('Bu salonu silmek istediğinize emin misiniz?')">
                                         <i class="fas fa-trash"></i> Sil
@@ -97,14 +97,14 @@
                                 </form>
                             </td>
                         </tr>
-                        
+                        @empty
                         <tr>
                             <td colspan="7" class="text-center">
                                 <i class="fas fa-theater-masks" style="font-size: 48px; color: #ccc;"></i>
                                 <p class="mt-2">Henüz salon eklenmemiş.</p>
                             </td>
                         </tr>
-                        @endforeach
+                        @endforelse
                     </tbody>
                 </table>
             </div>

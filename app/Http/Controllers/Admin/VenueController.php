@@ -22,7 +22,7 @@ class VenueController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search');
-        
+
         $venues = Venue::search($search)->paginate(10);
 
 
@@ -76,7 +76,7 @@ class VenueController extends Controller
     public function update(UpdateVenueRequest $request, Venue $venue)
     {
         $data = $request->validated();
-
+        //$data['is_active'] = $request->has('is_active') ? 1 : 0;
         if ($request->hasFile('image')) {
             // Eski resmi sil
             if ($venue->image) {
