@@ -25,14 +25,14 @@ class UpdateVenueRequest extends FormRequest
         return [
             'name' => 'required|string|max:255|min:3',
             'address' => 'nullable|string',
-            'phone' => 'nullable|string|max:20|min:10',
-            'email' => 'nullable|email|max:255|min:5',
+            'phone' => 'nullable|string|max:11|min:10',
+            'email' => 'nullable|email:filter|max:255|min:5',
             'website' => 'nullable|url|max:255',
             'description' => 'nullable|string|max:100',
             'capacity' => 'required|integer|min:1',
             'image' => 'nullable|image|max:2048', // 2MB
             'is_active' => 'required|boolean',
-        
+
         ];
     }
 
@@ -43,6 +43,8 @@ class UpdateVenueRequest extends FormRequest
             'name.string' => 'Salon adı sadece harflerden oluşmalıdır',
             'name.max' => 'Salon adı max 255 karakter olmalıdır.',
             'name.min' => 'Salon adı min 3 karakter olmalıdır.',
+            'phone.max' => 'Telefon numarası max 11 karakter olmalıdır.',
+            'phone.min' => 'Telefon min 10 karakter olmalıdır.',
             'capacity.required' => 'Kapasite zorunludur.',
             'capacity.min' => 'Kapasite en az 1 olmalıdır.',
             'image.image' => 'Dosya resim formatında olmalıdır.',
