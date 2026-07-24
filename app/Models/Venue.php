@@ -25,6 +25,24 @@ class Venue extends Model
         'is_active' => 'boolean',
     ];
 
+    // 1 Salon -> N Oyun
+    public function plays()
+    {
+        return $this->hasMany(Play::class);
+    }
+
+    // Aktif oyunu getir (sadece 1 tane)
+    public function activePlay()
+    {
+        return $this->hasOne(Play::class)->where('is_active', true);
+    }
+
+    // Salonda oyun var mı?
+    public function hasActivePlay()
+    {
+        return $this->activePlay()->exists();
+    }
+
     // Aktif salonlar
     public function scopeActive($query)
     {
