@@ -22,10 +22,10 @@ class UserController extends Controller {
 
     public function index(Request $request)
     {
-        //$this->authorize('viewAny', User::class); //controllerda bu şekilde yazmak yerine bir authorize yapısı sayesinde index fonksiyonunun 
+        //$this->authorize('viewAny', User::class); //controllerda bu şekilde yazmak yerine bir authorize yapısı sayesinde index fonksiyonunun
         //viewAny fonksiyonuyla bağlantılı olduğunu laravel anlayabilir
         $search = $request->get('search');
-        
+
         $users = User::when($search, function ($query, $search) {
             return $query->where('name', 'LIKE', "%{$search}%")
                          ->orWhere('email', 'LIKE', "%{$search}%");
@@ -62,7 +62,7 @@ class UserController extends Controller {
      * Display the specified resource.
      */
     public function show(User $user)
-    {        
+    {
         return view('admin.users.show', compact('user'));
     }
 
@@ -91,6 +91,12 @@ class UserController extends Controller {
 
         $user->update($data);
 
+        if ($request->role === 'admin') {
+            $user->syncRoles('admin');
+        } else {
+            $user->syncRoles('user');
+        }
+
         return redirect()->route('admin.users.index')
                          ->with('success', 'Kullanıcı başarıyla güncellendi.');
     }
@@ -100,7 +106,7 @@ class UserController extends Controller {
      */
     public function destroy(User $user)
     {
-        
+
         if ($user->id === auth()->id()) {
             return redirect()->route('admin.users.index')
                              ->with('error', 'Kendi hesabınızı silemezsiniz.');
