@@ -2,9 +2,9 @@
 
 @section('content')
     <div class="container">
-        <div class="row align-items-start">
+        <div class="row">
             <!-- Sol: Afiş -->
-            <div class="col-md-6 mb-4">
+            <div class="col-md-5 mb-4">
                 @if($play->image)
                     <img src="{{ asset('storage/' . $play->image) }}"
                          alt="{{ $play->name }}"
@@ -18,71 +18,97 @@
                 @endif
             </div>
 
-            <!-- Sağ: Oyun Bilgileri -->
-            <div class="col-md-6">
-                <h1 class="theater-title" style="font-size: 2.8rem; margin-bottom: 10px;">
-                    <span>{{ $play->name }}</span>
-                </h1>
-
-                <!-- Salon bilgisi -->
-                @if($play->venue)
-                    <p class="theater-subtitle" style="font-size: 1rem; margin-bottom: 5px;">
-                        <i class="fas fa-map-pin" style="color: #800020;"></i>
-                        <strong>{{ $play->venue->name }}</strong>
-                        @if($play->venue->address)
-                            <br><span style="font-size: 0.9rem; color: #888;">{{ $play->venue->address }}</span>
+            <!-- Sağ: Oyun Bilgileri (Kartlı) -->
+            <div class="col-md-7">
+                <!-- Başlık Kartı -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h1 class="theater-title" style="font-size: 2.5rem; margin-bottom: 0;">
+                            <span>{{ $play->name }}</span>
+                        </h1>
+                        @if($play->venue)
+                            <p class="text-muted mb-0" style="font-size: 1rem;">
+                                <i class="fas fa-map-pin" style="color: #800020;"></i>
+                                <strong>{{ $play->venue->name }}</strong>
+                                @if($play->venue->address)
+                                    <br><span style="font-size: 0.9rem;">{{ $play->venue->address }}</span>
+                                @endif
+                            </p>
                         @endif
-                    </p>
-                @endif
+                    </div>
+                </div>
 
-                <!-- Fiyat ve Süre -->
-                <div class="d-flex gap-3 my-3 flex-wrap">
-                <span class="badge" style="background: #800020; color: white; padding: 8px 18px; font-size: 1rem; border-radius: 50px;">
+                <!-- Fiyat ve Süre Kartı -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap align-items-center justify-content-between">
+                            <!-- Sol: Süre ve Fiyat -->
+                            <div class="d-flex gap-2">
+                <span class="badge" style="background: #800020; color: white; padding: 6px 14px; border-radius: 50px;">
                     <i class="fas fa-clock"></i> {{ $play->duration ?? '?' }} dk
                 </span>
-                    <span class="badge" style="background: #28a745; color: white; padding: 8px 18px; font-size: 1rem; border-radius: 50px;">
+                                <span class="badge" style="background: #28a745; color: white; padding: 6px 14px; border-radius: 50px;">
                     <i class="fas fa-ticket-alt"></i> {{ number_format($play->ticket_price, 2) }} ₺
                 </span>
-                </div>
+                            </div>
 
-                <!-- Açıklama -->
-                <h5 class="mt-4" style="color: #800020; font-weight: 700;">Oyun Hakkında</h5>
-                <p class="text-muted" style="line-height: 1.8; font-size: 1rem;">
-                    {{ $play->description ?? 'Açıklama eklenmemiş.' }}
-                </p>
-
-                <!-- Yazar ve Yönetmen -->
-                <div class="row mt-3">
-                    @if($play->author)
-                        <div class="col-6">
-                            <strong style="color: #800020;">Yazar</strong>
-                            <p class="text-muted">{{ $play->author }}</p>
+                            <!-- Sağ: Butonlar -->
+                            <div class="d-flex gap-2">
+                                <a href="#" class="btn-theater" style="padding: 8px 24px; font-size: 0.9rem;">
+                                    <i class="fas fa-ticket-alt"></i> Bilet Al
+                                </a>
+                            </div>
                         </div>
-                    @endif
-                    @if($play->director)
-                        <div class="col-6">
-                            <strong style="color: #800020;">Yönetmen</strong>
-                            <p class="text-muted">{{ $play->director }}</p>
-                        </div>
-                    @endif
-                </div>
-
-                <!-- Oyuncular -->
-                @if($play->cast)
-                    <div class="mt-2">
-                        <strong style="color: #800020;">Oyuncular</strong>
-                        <p class="text-muted">{{ $play->cast }}</p>
                     </div>
-                @endif
+                </div>
 
-                <!-- Bilet Al Butonu -->
-                <div class="mt-4 d-flex flex-wrap gap-2">
-                    <a href="#" class="btn-theater" style="padding: 12px 40px; font-size: 1.1rem;">
-                        <i class="fas fa-ticket-alt"></i> Bilet Al
-                    </a>
-                    <a href="{{ route('home') }}" class="btn-theater-outline" style="padding: 12px 30px; font-size: 1.1rem;">
-                        <i class="fas fa-arrow-left"></i> Oyunlara Dön
-                    </a>
+                <!-- Açıklama Kartı -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title" style="color: #800020; font-weight: 700;">Oyun Hakkında</h5>
+                        <p class="card-text text-muted" style="line-height: 1.8;">
+                            {{ $play->description ?? 'Açıklama eklenmemiş.' }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Yazar ve Yönetmen Kartı -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            @if($play->author)
+                                <div class="col-6">
+                                    <strong style="color: #800020;">Yazar</strong>
+                                    <p class="text-muted mb-0">{{ $play->author }}</p>
+                                </div>
+                            @endif
+                            @if($play->director)
+                                <div class="col-6">
+                                    <strong style="color: #800020;">Yönetmen</strong>
+                                    <p class="text-muted mb-0">{{ $play->director }}</p>
+                                </div>
+                            @endif
+                        </div>
+                        @if($play->cast)
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <strong style="color: #800020;">Oyuncular</strong>
+                                    <p class="text-muted mb-0">{{ $play->cast }}</p>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- Butonlar Kartı -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap gap-2">
+                            <a href="{{ route('home') }}" class="btn-theater-outline">
+                                <i class="fas fa-arrow-left"></i> Oyunlara Dön
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
