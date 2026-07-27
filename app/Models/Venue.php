@@ -31,6 +31,11 @@ class Venue extends Model
         return $this->hasMany(Play::class);
     }
 
+    public function seats()
+    {
+        return $this->hasMany(Seat::class);
+    }
+
     // Aktif oyunu getir (sadece 1 tane)
     public function activePlay()
     {
