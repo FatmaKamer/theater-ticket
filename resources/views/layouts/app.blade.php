@@ -1,5 +1,6 @@
 <!-- resources/views/layouts/app.blade.php -->
 <!doctype html>
+@stack('scripts')
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
