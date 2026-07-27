@@ -54,7 +54,7 @@
 
                             <!-- Sağ: Butonlar -->
                             <div class="d-flex gap-2">
-                                <a href="#" class="btn-theater" style="padding: 8px 24px; font-size: 0.9rem;">
+                                <a href="{{ route('play.seats', $play) }}" class="btn-theater" style="padding: 12px 40px; font-size: 1.1rem;">
                                     <i class="fas fa-ticket-alt"></i> Bilet Al
                                 </a>
                             </div>
