@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Play extends Model
 {
     use HasFactory;
@@ -34,11 +35,6 @@ class Play extends Model
         return $this->belongsTo(Venue::class);
     }
 
-    // İlişki: 1 Oyun -> N Bilet (ileride)
-    /*public function tickets()
-    {
-        return $this->hasMany(Ticket::class);
-    }*/
 
     // Scope: Aktif oyunlar
     public function scopeActive($query)
@@ -61,5 +57,37 @@ class Play extends Model
     public function isSelling()
     {
         return $this->is_active;
+    }
+
+    // app/Models/Play.php
+    public function ticketSales()
+    {
+        return $this->hasMany(TicketSale::class);
+    }
+
+// Oyun için satılmış koltuk ID'leri
+    public function soldSeatIds()
+    {
+        return $this->ticketSales()
+            ->where('status', 'active')
+            ->pluck('seat_id')
+            ->toArray();
+    }
+
+    // Oyun için müsait koltuklar (aktif salon koltukları - satılmış olanlar)
+    public function availableSeats()
+    {
+        $soldSeatIds = $this->soldSeatIds();
+
+        // Eğer venue ilişkisi yüklenmemişse, manuel sorgu
+        if (!$this->relationLoaded('venue')) {
+            return Seat::where('venue_id', $this->venue_id)
+                ->where('is_active', true)
+                ->whereNotIn('id', $soldSeatIds);
+        }
+
+        return $this->venue->seats()
+            ->where('is_active', true)
+            ->whereNotIn('id', $soldSeatIds);
     }
 }
