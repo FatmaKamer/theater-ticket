@@ -5,16 +5,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     <title>Theater Ticket</title>
 
     <!-- ⭐ BOOTSTRAP 5 CSS (CDN) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-    
+
     <!-- ⭐ Font Awesome (opsiyonel, ikonlar için) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -26,7 +26,7 @@
             background:rgba(255, 255, 255, 0.95) !important;
             backdrop-filter: blur(10px);
         }
-        
+
         .navbar-brand {
             font-weight: 700;
             font-size: 1.5rem;
@@ -34,7 +34,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        
+
         /* Kartlar */
         .card {
             background: rgba(255, 255, 255, 0.95) !important;
@@ -48,7 +48,7 @@
         main.py-4 {
             min-height: calc(100vh - 80px);
         }
-        
+
         body {
             font-family: 'Nunito', sans-serif;
         }
@@ -56,13 +56,13 @@
 </head>
 <body class="theater-bg">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" style="position: sticky; top: 0; z-index: 1050;">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     THEATER TICKET
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
-                        aria-controls="navbarSupportedContent" aria-expanded="false" 
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false"
                         aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -92,7 +92,7 @@
                             @endif
                         @else
     <li class="nav-item dropdown">
-        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" 
+        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
             {{ Auth::user()->name }}
         </a>
@@ -102,7 +102,7 @@
             <a class="dropdown-item" href="{{ route('dashboard') }}">
                 <i class="fas fa-home"></i> Giriş Sayfası
             </a>
-            
+
             <!-- ⭐ Admin Paneli Linki (Sadece Adminler için) -->
             @if(Auth::check() && Auth::user()->isAdmin())
                 <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
@@ -110,7 +110,7 @@
                 </a>
                 <div class="dropdown-divider"></div>
             @endif
-            
+
             <!-- ⭐ Çıkış Yap -->
             <a class="dropdown-item" href="{{ route('logout') }}"
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
