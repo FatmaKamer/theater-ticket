@@ -134,7 +134,7 @@ body {
 }
 
 /* 9. GİRİŞ FORMU */
- 
+
 .login-input {
     border: 2px solid #eee;
     border-radius: 12px;
@@ -142,30 +142,120 @@ body {
     font-size: 1rem;
     transition: border-color 0.3s ease;
 }
- 
+
 .login-input:focus {
     border-color: #C04060;
     box-shadow: 0 0 0 0.2rem rgba(192, 64, 96, 0.15);
     outline: none;
 }
- 
+
 .login-link {
     color: #800020;
     font-weight: 600;
     text-decoration: none;
 }
- 
+
 .login-link:hover {
     color: #C04060;
     text-decoration: underline;
 }
- 
+
 .login-link-muted {
     color: #999;
     font-size: 0.9rem;
     text-decoration: none;
 }
- 
+
 .login-link-muted:hover {
     color:#800020;
+}
+
+/* Koltuk Grid */
+.seat-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 6px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Koltuk Butonları */
+.seat {
+    aspect-ratio: 1 / 1;
+    border: none;
+    border-radius: 6px;
+    background: #28a745;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.seat:hover:not(.sold):not(.selected) {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+}
+
+/* Dolu (Satılmış) Koltuk */
+.seat.sold {
+    background: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Seçili Koltuk */
+.seat.selected {
+    background: #007bff;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+}
+
+.seat:disabled {
+    cursor: not-allowed;
+}
+
+/* Sahne */
+.stage {
+    background: linear-gradient(135deg, #800020, #C04060);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    display: inline-block;
+    font-size: 0.9rem;
+}
+
+/* Lejant (Açıklama) */
+.legend-box {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+.legend-box.available {
+    background: #28a745;
+}
+.legend-box.selected {
+    background: #007bff;
+}
+.legend-box.sold {
+    background: #6c757d;
+}
+
+/* Seçili koltuk listesi */
+#selected-list li {
+    padding: 6px 10px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
 }
