@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StorePlayRequest;
 use App\Http\Requests\Admin\UpdatePlayRequest;
 use App\Models\Play;
+use App\Models\Seat;
 use App\Models\Venue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -47,18 +48,55 @@ class PlayController extends Controller
             $data['image'] = $request->file('image')->store('plays', 'public');
         }
 
-        // Oyunu oluştur
+        // 1. Oyunu oluştur
         $play = Play::create($data);
 
-        // Oyun eklendi, salonu pasif yap
+        // 2. ⭐ KOLTUKLARI OLUŞTUR (YENİ!)
+        $this->generateSeatsForPlay($play);
+
+        // 3. Salonu pasif yap
         $venue = Venue::find($request->venue_id);
         if ($venue) {
             $venue->update(['is_active' => false]);
         }
 
         return redirect()->route('admin.plays.index')
-            ->with('success', 'Oyun başarıyla oluşturuldu. Salon pasif duruma getirildi.');
+            ->with('success', 'Oyun başarıyla oluşturuldu. Koltuklar oluşturuldu, salon pasif duruma getirildi.');
+    }
 
+    /**
+     * ⭐ Bir oyun için koltukları oluştur
+     */
+    private function generateSeatsForPlay(Play $play)
+    {
+        $venue = $play->venue;
+        $capacity = $venue->capacity;
+
+        // Koltuk düzeni (10 satır, her satırda 10 koltuk)
+        $rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+        $seatsPerRow = 10;
+        $seatCount = 0;
+
+        for ($i = 0; $i < count($rows); $i++) {
+            for ($j = 1; $j <= $seatsPerRow; $j++) {
+                $seatCount++;
+                if ($seatCount > $capacity) {
+                    break 2; // Kapasite dolduysa tüm döngülerden çık
+                }
+
+                Seat::firstOrCreate(
+                    [
+                        'venue_id' => $venue->id,
+                        'code' => $rows[$i] . $j
+                    ],
+                    [
+                        'row' => $rows[$i],
+                        'number' => $j,
+                        'is_active' => true,
+                    ]
+                );
+            }
+        }
     }
 
     /**
@@ -98,6 +136,23 @@ class PlayController extends Controller
 
         // Oyunu güncelle
         $play->update($data);
+
+        // Eğer salon değiştiyse, yeni salonun koltuklarını oluştur
+        if ($oldVenueId != $request->venue_id) {
+            // Eski salonu kontrol et
+            $oldVenue = Venue::find($oldVenueId);
+            if ($oldVenue && !$oldVenue->hasActivePlay()) {
+                $oldVenue->update(['is_active' => true]);
+            }
+
+            // Yeni salon için koltukları oluştur
+            $this->generateSeatsForPlay($play);
+
+            $newVenue = Venue::find($request->venue_id);
+            if ($newVenue) {
+                $newVenue->update(['is_active' => false]);
+            }
+        }
 
         if (!$play->is_active) {
             $venue = Venue::find($play->venue_id);
@@ -143,6 +198,7 @@ class PlayController extends Controller
 
         // Oyunu sil
         $venueId = $play->venue_id;
+        Seat::where('venue_id', $venueId)->delete();
         $play->delete();
 
         // Salonda başka oyun kaldı mı?
