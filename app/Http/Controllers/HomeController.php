@@ -19,29 +19,34 @@ class HomeController extends Controller
     public function index()
     {
 
-            $plays = Play::with('venue')
-                ->where('is_active', true)
-                ->orderBy('created_at', 'desc')
-                ->paginate(9);
+        $plays = Play::with('venue')
+            ->where('is_active', true)
+            ->orderBy('created_at', 'desc')
+            ->paginate(9);
 
-            return view('home', compact('plays'));
+        $breadcrumbs = [
+            ['title' => 'Ana Sayfa', 'url' => null],
+        ];
+
+        return view('home', compact('plays', 'breadcrumbs'));
 
 
     }
 
-    /**
-     * Oyun detay (sadece giriş yapmışlar)
-     */
     public function show(Play $play)
     {
-        // Giriş kontrolü zaten middleware'de yapılıyor
         if (!$play->is_active) {
             abort(404);
         }
 
         $play->load('venue');
 
-        return view('play.show', compact('play'));
+        $breadcrumbs = [
+            ['title' => 'Ana Sayfa', 'url' => route('home')],
+            ['title' => $play->name, 'url' => null],
+        ];
+
+        return view('play.show', compact('play', 'breadcrumbs'));
     }
 
     public function seatSelection(Play $play)
@@ -72,10 +77,15 @@ class HomeController extends Controller
                 ];
             });
 
-        // Koltukları satırlara göre grupla
         $seatsByRow = $seats->groupBy('row');
 
-        return view('play.seats', compact('play', 'seatsByRow', 'seats'));
+        $breadcrumbs = [
+            ['title' => 'Ana Sayfa', 'url' => route('home')],
+            ['title' => $play->name, 'url' => route('play.show', $play)],
+            ['title' => 'Koltuk Seçimi', 'url' => null],
+        ];
+
+        return view('play.seats', compact('play', 'seatsByRow', 'seats', 'breadcrumbs'));
     }
 
     /**
@@ -128,7 +138,7 @@ class HomeController extends Controller
         }
 
         // 10 dakika kontrolü
-        if (now()->diffInMinutes($reservation['reserved_at']) > 10) {
+        if (now()->diffInMinutes($reservation['reserved_at']) > 1) {
             session()->forget('reserved_seats');
             return redirect()->route('play.seats', $play)
                 ->with('error', 'Rezervasyon süresi doldu. Lütfen tekrar deneyin.');
