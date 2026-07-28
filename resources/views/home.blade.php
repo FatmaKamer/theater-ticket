@@ -4,10 +4,10 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h1 class="theater-title" style="font-size: 2.5rem; text-align: center;">
-                    <span>Sahnedeki</span> Oyunlar
+                <h1 class="play-title" style="font-size: 2.5rem; text-align: center;">
+                    <span>Sahnedeki Oyunlar</span>
                 </h1>
-                <p class="theater-subtitle text-center" style="margin-bottom: 40px;">
+                <p class="play-meta text-center" style="margin-bottom: 40px;">
                     Bugün sahnelenen en güncel oyunları keşfedin.
                 </p>
             </div>

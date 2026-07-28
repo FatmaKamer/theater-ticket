@@ -4,14 +4,14 @@
     <div class="container">
         <div class="row mb-4">
             <div class="col-12">
-                <h1 class="theater-title" style="font-size: 2.5rem;">
+                <h1 class="play-title">
                     <span>{{ $play->name }}</span>
                 </h1>
-                <p class="text-muted">
-                    <i class="fas fa-map-pin" style="color: #800020;"></i>
+                <p class="play-meta">
+                    <i class="fas fa-map-pin"></i>
                     {{ $play->venue->name }}
                     <span class="mx-2">|</span>
-                    <i class="fas fa-ticket-alt" style="color: #800020;"></i>
+                    <i class="fas fa-ticket-alt"></i>
                     {{ number_format($play->ticket_price, 2) }} ₺ / koltuk
                 </p>
             </div>
@@ -22,7 +22,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="text-center mb-3">🎭 SAHNE</h5>
+                        <h5 class="play-title text-center mb-3">SAHNE</h5>
 
                         <!-- Koltuk Matrisi -->
                         <div class="seat-matrix">
@@ -31,14 +31,14 @@
                                 <tr>
                                     <th class="corner"></th>
                                     @for($i = 1; $i <= 10; $i++)
-                                        <th class="col-header">{{ $i }}</th>
+                                        <th class="seat-col-header">{{ $i }}</th>
                                     @endfor
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($seatsByRow as $row => $rowSeats)
                                     <tr>
-                                        <td class="row-header">{{ $row }}</td>
+                                        <td class="seat-row-header">{{ $row }}</td>
                                         @foreach($rowSeats as $seat)
                                             <td>
                                                 <button class="seat {{ $seat['is_sold'] ? 'sold' : '' }}"
@@ -70,7 +70,9 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5><i class="fas fa-shopping-cart"></i> Seçim Özeti</h5>
+                        <h5 class="summary-title">
+                            <i class="fas fa-shopping-cart"></i> Seçim Özeti
+                        </h5>
                         <hr>
                         <ul id="selected-list" class="list-unstyled">
                             <li class="text-muted">Henüz koltuk seçilmedi.</li>
@@ -114,17 +116,17 @@
             min-width: 30px;
         }
 
-        .col-header {
+        .seat-col-header {
             font-weight: 700;
             font-size: 13px;
-            color: #800020;
+            color: #5C1A1A;
             padding-bottom: 8px;
         }
 
-        .row-header {
+        .seat-row-header {
             font-weight: 700;
             font-size: 14px;
-            color: #800020;
+            color: #5C1A1A;
             padding-right: 10px;
         }
 

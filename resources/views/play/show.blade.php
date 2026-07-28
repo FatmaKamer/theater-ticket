@@ -23,12 +23,12 @@
                 <!-- Başlık Kartı -->
                 <div class="card mb-3">
                     <div class="card-body">
-                        <h1 class="theater-title" style="font-size: 2.5rem; margin-bottom: 0;">
+                        <h1 class="play-title">
                             <span>{{ $play->name }}</span>
                         </h1>
                         @if($play->venue)
-                            <p class="text-muted mb-0" style="font-size: 1rem;">
-                                <i class="fas fa-map-pin" style="color: #800020;"></i>
+                            <p class="play-meta mb-0">
+                                <i class="fas fa-map-pin"></i>
                                 <strong>{{ $play->venue->name }}</strong>
                                 @if($play->venue->address)
                                     <br><span style="font-size: 0.9rem;">{{ $play->venue->address }}</span>
@@ -44,12 +44,12 @@
                         <div class="d-flex flex-wrap align-items-center justify-content-between">
                             <!-- Sol: Süre ve Fiyat -->
                             <div class="d-flex gap-2">
-                <span class="badge" style="background: #800020; color: white; padding: 6px 14px; border-radius: 50px;">
-                    <i class="fas fa-clock"></i> {{ $play->duration ?? '?' }} dk
-                </span>
+                                <span class="badge" style="background: #800020; color: white; padding: 6px 14px; border-radius: 50px;">
+                                    <i class="fas fa-clock"></i> {{ $play->duration ?? '?' }} dk
+                                </span>
                                 <span class="badge" style="background: #28a745; color: white; padding: 6px 14px; border-radius: 50px;">
-                    <i class="fas fa-ticket-alt"></i> {{ number_format($play->ticket_price, 2) }} ₺
-                </span>
+                                    <i class="fas fa-ticket-alt"></i> {{ number_format($play->ticket_price, 2) }} ₺
+                                </span>
                             </div>
 
                             <!-- Sağ: Butonlar -->
@@ -65,7 +65,7 @@
                 <!-- Açıklama Kartı -->
                 <div class="card mb-3">
                     <div class="card-body">
-                        <h5 class="card-title" style="color: #800020; font-weight: 700;">Oyun Hakkında</h5>
+                        <h5 class="play-detail-label">Oyun Hakkında</h5>
                         <p class="card-text text-muted" style="line-height: 1.8;">
                             {{ $play->description ?? 'Açıklama eklenmemiş.' }}
                         </p>
@@ -78,13 +78,13 @@
                         <div class="row">
                             @if($play->author)
                                 <div class="col-6">
-                                    <strong style="color: #800020;">Yazar</strong>
+                                    <strong class="play-detail-label" style="margin-top: 0;">Yazar</strong>
                                     <p class="text-muted mb-0">{{ $play->author }}</p>
                                 </div>
                             @endif
                             @if($play->director)
                                 <div class="col-6">
-                                    <strong style="color: #800020;">Yönetmen</strong>
+                                    <strong class="play-detail-label" style="margin-top: 0;">Yönetmen</strong>
                                     <p class="text-muted mb-0">{{ $play->director }}</p>
                                 </div>
                             @endif
@@ -92,7 +92,7 @@
                         @if($play->cast)
                             <div class="row mt-2">
                                 <div class="col-12">
-                                    <strong style="color: #800020;">Oyuncular</strong>
+                                    <strong class="play-detail-label" style="margin-top: 0;">Oyuncular</strong>
                                     <p class="text-muted mb-0">{{ $play->cast }}</p>
                                 </div>
                             </div>

@@ -259,3 +259,46 @@ body {
     justify-content: space-between;
     font-size: 0.9rem;
 }
+
+/* ═══════════════════════════════════════════════ */
+/* 10. OYUN DETAY VE KOLTUK SEÇİM SAYFASI */
+/* ═══════════════════════════════════════════════ */
+
+/* Oyun başlığı (Detay sayfası için) */
+.play-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #470606 !important; /* Daha yumuşak bordo */
+    margin-bottom: 5px;
+}
+
+/*.play-title span {
+    background: linear-gradient(135deg, #8B3A3A, #5C1A1A);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}*/
+
+/* Oyun alt bilgisi (salon, fiyat) */
+.play-meta {
+    font-size: 1rem;
+    color: #ff9393 !important; /* Bootstrap text-muted ile aynı */
+}
+
+.play-meta i {
+    color: #8B3A3A;
+}
+
+/* Koltuk seçim başlığı */
+.seat-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #4a1a1a;
+    margin-bottom: 15px;
+}
+
+/* Özet başlığı */
+.summary-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #4a1a1a;
+}
