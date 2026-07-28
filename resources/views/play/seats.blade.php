@@ -24,6 +24,8 @@
                     <div class="card-body">
                         <h5 class="play-title text-center mb-3">SAHNE</h5>
 
+
+
                         <!-- Koltuk Matrisi -->
                         <div class="seat-matrix">
                             <table class="seat-table">
@@ -72,6 +74,11 @@
                     <div class="card-body">
                         <h5 class="summary-title">
                             <i class="fas fa-shopping-cart"></i> Seçim Özeti
+                            <!-- GERİ SAYIM -->
+                            <div id="countdown-container" class="mb-3" style="display: none; float: right;">
+                                <i class="fas fa-clock"></i> Kalan Süre:
+                                <span id="countdown-timer">01:00</span>
+                            </div>
                         </h5>
                         <hr>
                         <ul id="selected-list" class="list-unstyled">
@@ -184,6 +191,11 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             let selected = [];
+            let countdownTimer = null;
+            let remainingSeconds = 60; // 5 dakika
+
+            const countdownContainer = document.getElementById('countdown-container');
+            const countdownDisplay = document.getElementById('countdown-timer');
 
             // Koltuk tıkla
             document.querySelectorAll('.seat:not(.sold)').forEach(btn => {
@@ -199,7 +211,15 @@
                         this.classList.add('selected');
                         selected.push({ id, code, price });
                     }
+
                     updateUI();
+
+                    // Koltuk seçildiğinde geri sayımı başlat
+                    if (selected.length > 0) {
+                        startCountdown();
+                    } else {
+                        stopCountdown();
+                    }
                 });
             });
 
@@ -221,11 +241,59 @@
                 total.textContent = sum.toFixed(2);
             }
 
+            // GERİ SAYIM BAŞLAT
+            function startCountdown() {
+                // Önceki timer'ı temizle
+                if (countdownTimer) {
+                    clearInterval(countdownTimer);
+                }
+
+                // Geri sayım container'ını göster
+                countdownContainer.style.display = 'block';
+
+                // Süreyi sıfırla
+                remainingSeconds = 60; // 5 dakika
+
+                countdownTimer = setInterval(function() {
+                    remainingSeconds--;
+
+                    const minutes = Math.floor(remainingSeconds / 60);
+                    const seconds = remainingSeconds % 60;
+                    countdownDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+                    // Süre dolduysa
+                    if (remainingSeconds <= 0) {
+                        clearInterval(countdownTimer);
+                        countdownTimer = null;
+                        countdownContainer.style.display = 'none';
+
+                        // SEÇİMLERİ İPTAL ET
+                        document.querySelectorAll('.seat.selected').forEach(s => s.classList.remove('selected'));
+                        selected = [];
+                        updateUI();
+
+                        alert('Seçim süresi doldu. Lütfen tekrar koltuk seçin.');
+                    }
+                }, 1000);
+            }
+
+            // GERİ SAYIMI DURDUR
+            function stopCountdown() {
+                if (countdownTimer) {
+                    clearInterval(countdownTimer);
+                    countdownTimer = null;
+                }
+                countdownContainer.style.display = 'none';
+                remainingSeconds = 300;
+                countdownDisplay.textContent = '01:00';
+            }
+
             // Hepsini sil
             document.getElementById('clear-btn').addEventListener('click', function() {
                 document.querySelectorAll('.seat.selected').forEach(s => s.classList.remove('selected'));
                 selected = [];
                 updateUI();
+                stopCountdown();
             });
 
             // Ödemeye geç
@@ -234,8 +302,47 @@
                     alert('Lütfen en az bir koltuk seçin.');
                     return;
                 }
-                const codes = selected.map(s => s.code).join(', ');
-                alert('Seçilen koltuklar: ' + codes);
+
+                // Geri sayımı durdur
+                stopCountdown();
+
+                // Mevcut rezervasyon ve sipariş işlemleri
+                const seatIds = selected.map(s => s.id);
+                const playId = {{ $play->id }};
+
+                fetch(`/play/${playId}/reserve`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    },
+                    body: JSON.stringify({ seat_ids: seatIds }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.href = `/play/${playId}/confirm`;
+                        } else {
+                            alert(data.message);
+                            if (data.conflict_seats) {
+                                document.querySelectorAll('.seat').forEach(seat => {
+                                    const seatId = parseInt(seat.dataset.id);
+                                    if (data.conflict_seats.includes(seatId)) {
+                                        seat.classList.remove('selected');
+                                        seat.classList.add('sold');
+                                        seat.disabled = true;
+                                    }
+                                });
+                                selected = selected.filter(s => !data.conflict_seats.includes(s.id));
+                                updateUI();
+                                startCountdown();
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Hata:', error);
+                        alert('Bir hata oluştu. Lütfen tekrar deneyin.');
+                    });
             });
         });
     </script>
