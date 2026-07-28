@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Play;
 use Illuminate\Http\Request;
+use App\Models\Seat;
+use App\Models\Order;
+use App\Models\TicketSale;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -14,16 +18,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (auth()->check()) {
+
             $plays = Play::with('venue')
                 ->where('is_active', true)
                 ->orderBy('created_at', 'desc')
                 ->paginate(9);
 
             return view('home', compact('plays'));
-        }
 
-        return view('welcome');
+
     }
 
     /**
