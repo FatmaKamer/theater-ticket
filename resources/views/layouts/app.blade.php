@@ -9,14 +9,12 @@
 
     <title>Theater Ticket</title>
 
-    <!-- ⭐ BOOTSTRAP 5 CSS (CDN) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
-    <!-- ⭐ Font Awesome (opsiyonel, ikonlar için) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <link rel="stylesheet" href="{{ asset('css/theater.css') }}">
@@ -99,12 +97,12 @@
         </a>
 
         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <!-- ⭐ Dashboard Linki (Herkes için) -->
+            <!-- Dashboard Linki (Herkes için) -->
             <a class="dropdown-item" href="{{ route('dashboard') }}">
                 <i class="fas fa-home"></i> Giriş Sayfası
             </a>
 
-            <!-- ⭐ Admin Paneli Linki (Sadece Adminler için) -->
+            <!-- Admin Paneli Linki (Sadece Adminler için) -->
             @if(Auth::check() && Auth::user()->isAdmin())
                 <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
                     <i class="fas fa-user-shield"></i> Admin Paneli
@@ -112,7 +110,7 @@
                 <div class="dropdown-divider"></div>
             @endif
 
-            <!-- ⭐ Çıkış Yap -->
+            <!-- Çıkış Yap -->
             <a class="dropdown-item" href="{{ route('logout') }}"
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <i class="fas fa-sign-out-alt"></i> {{ __('Çıkış Yap') }}
@@ -134,7 +132,7 @@
         </main>
     </div>
 
-    <!-- ⭐ BOOTSTRAP 5 JS BUNDLE (CDN) -->
+    <!-- BOOTSTRAP 5 JS BUNDLE (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('seats', function (Blueprint $table) {
             $table->id();
             $table->foreignId('venue_id')->constrained()->onDelete('cascade');
-            $table->string('row');                 // 'A', 'B', 'C' ...
-            $table->integer('number');             // 1, 2, 3 ...
-            $table->string('code')->unique();      // 'A1', 'B5' ...
-            $table->string('section')->nullable(); // 'sahne', 'balkon', 'engelli', 'vip'
-            $table->boolean('is_active')->default(true); // ⭐ Aktif/Pasif
+            $table->string('row');
+            $table->integer('number');
+            $table->string('code')->unique();
+            $table->string('section')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
