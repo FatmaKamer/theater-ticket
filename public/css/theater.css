@@ -302,3 +302,24 @@ body {
     font-weight: 600;
     color: #4a1a1a;
 }
+
+.breadcrumb-item a {
+    color: #800020;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb-item a:hover {
+    color: #C04060;
+    text-decoration: underline !important;
+}
+
+.breadcrumb-item.active {
+    color: #6c757d;
+    font-weight: 600;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: #800020;
+    font-weight: 300;
+}
