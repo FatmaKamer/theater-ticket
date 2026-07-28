@@ -2,6 +2,13 @@
 
 @section('content')
     <div class="container">
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle"></i> {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
         <div class="row">
             <div class="col-12">
                 <h1 class="play-title" style="font-size: 2.5rem; text-align: center;">
@@ -58,7 +65,7 @@
 
                         <div class="card-footer" style="background: transparent; border-top: none; padding: 0 20px 20px 20px;">
                             <a href="{{ route('play.show', $play) }}" class="btn-theater w-100" style="display: block; text-align: center;">
-                                <i class="fas fa-ticket-alt"></i> Bilet Al
+                                <i class="fas fa-ticket-alt"></i> İncele
                             </a>
                         </div>
                     </div>
