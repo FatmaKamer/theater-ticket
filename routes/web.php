@@ -6,23 +6,17 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VenueController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+Route::get('/play/{play}', [HomeController::class, 'show'])->name('play.show');
 
 // Dashboard (giriş yapmış kullanıcılar için)
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-    Route::get('/play/{play}', [HomeController::class, 'show'])->name('play.show');
-
     Route::get('/play/{play}/seats', [HomeController::class, 'seatSelection'])->name('play.seats');
 
     Route::post('/play/{play}/reserve', [HomeController::class, 'reserveSeats'])->name('play.reserve');
 
-    Route::post('/play/{play}/confirm', [HomeController::class, 'confirmOrder'])->name('play.confirm');
+    Route::get('/play/{play}/confirm', [HomeController::class, 'confirmOrder'])->name('play.confirm');
 });
 
 Route::middleware(['auth','admin'])->prefix('admin')->name('admin.')->group(function (){
