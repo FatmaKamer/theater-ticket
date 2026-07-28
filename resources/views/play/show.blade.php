@@ -100,16 +100,7 @@
                     </div>
                 </div>
 
-                <!-- Butonlar Kartı -->
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex flex-wrap gap-2">
-                            <a href="{{ route('home') }}" class="btn-theater-outline">
-                                <i class="fas fa-arrow-left"></i> Oyunlara Dön
-                            </a>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
