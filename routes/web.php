@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\PlayController;
+use App\Http\Controllers\Admin\TicketController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\UserController;
@@ -30,4 +31,5 @@ Route::middleware(['auth','admin'])->prefix('admin')->name('admin.')->group(func
 
     Route::resource('plays', PlayController::class);
 
+    Route::resource('tickets', TicketController::class)->only(['index', 'show', 'destroy']);
 });
