@@ -45,7 +45,7 @@ class UserController extends Controller {
     {
         $breadcrumbs = [
             ['title' => 'Ana Sayfa', 'url' => route("admin.dashboard")],
-            ['title' => 'Kullanıcı Yönetimi', 'url' => route("admin.plays.index")],
+            ['title' => 'Kullanıcı Yönetimi', 'url' => route("admin.users.index")],
             ['title' => 'Yeni Kullanıcı', 'url' => null],
         ];
         return view('admin.users.create', compact('breadcrumbs'));
@@ -82,7 +82,7 @@ class UserController extends Controller {
     {
         $breadcrumbs = [
             ['title' => 'Ana Sayfa', 'url' => route("admin.dashboard")],
-            ['title' => 'Kullanıcı Yönetimi', 'url' => route("admin.plays.index")],
+            ['title' => 'Kullanıcı Yönetimi', 'url' => route("admin.users.index")],
             ['title' => $user->name . ' Düzenle', 'url' => null],
         ];
         return view('admin.users.edit', compact('user', 'breadcrumbs'));

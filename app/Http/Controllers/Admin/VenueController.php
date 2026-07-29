@@ -39,7 +39,7 @@ class VenueController extends Controller
     {
         $breadcrumbs = [
             ['title' => 'Ana Sayfa', 'url' => route("admin.dashboard")],
-            ['title' => 'Salon Yönetimi', 'url' => route("admin.venue.index")],
+            ['title' => 'Salon Yönetimi', 'url' => route("admin.venues.index")],
             ['title' => 'Yeni Salon', 'url' => null],
         ];
         return view('admin.venues.create', compact('breadcrumbs'));
@@ -77,7 +77,7 @@ class VenueController extends Controller
     {
         $breadcrumbs = [
             ['title' => 'Ana Sayfa', 'url' => route("admin.dashboard")],
-            ['title' => 'Salon Yönetimi', 'url' => route("admin.venue.index")],
+            ['title' => 'Salon Yönetimi', 'url' => route("admin.venues.index")],
             ['title' => $venue->name . ' Düzenle', 'url' => null],
         ];
         return view('admin.venues.edit', compact('venue', 'breadcrumbs'));
