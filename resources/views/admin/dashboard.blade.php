@@ -48,6 +48,19 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-theater-masks" style="font-size: 48px; color: #800020;"></i>
+                            <h5 class="card-title mt-3">Biletler</h5>
+                            <p class="card-text">Toplam {{ \App\Models\TicketSale::count() }} bilet</p>
+                            <a href="{{ route('admin.tickets.index') }}" class="btn-theater">
+                                <i class="fas fa-arrow-right"></i> Yönet
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
