@@ -47,7 +47,12 @@ class TicketController extends Controller
         $plays = Play::where('is_active', true)->get();
         $users = User::all();
 
-        return view('admin.tickets.index', compact('tickets', 'plays', 'users'));
+        $breadcrumbs = [
+            ['title' => 'Ana Sayfa', 'url' => route("admin.dashboard")],
+            ['title' => 'Bilet Yönetimi', 'url' => null],
+        ];
+
+        return view('admin.tickets.index', compact('tickets', 'plays', 'users', 'breadcrumbs'));
     }
 
     /**
@@ -72,7 +77,13 @@ class TicketController extends Controller
     public function show(TicketSale $ticket)
     {
         $ticket->load(['play', 'seat', 'user', 'order']);
-        return view('admin.tickets.show', compact('ticket'));
+
+        $breadcrumbs = [
+            ['title' => 'Ana Sayfa', 'url' => route("admin.dashboard")],
+            ['title' => 'Bilet Yönetimi', 'url' => route("admin.tickets.index")],
+            ['title' => 'Bilet #' . $ticket->id, 'url' => null],
+        ];
+        return view('admin.tickets.show', compact('ticket', 'breadcrumbs'));
     }
 
     /**

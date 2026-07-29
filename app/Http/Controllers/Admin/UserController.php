@@ -31,7 +31,11 @@ class UserController extends Controller {
                          ->orWhere('email', 'LIKE', "%{$search}%");
         })->paginate(10); //paginate sayfada arama sonucunun kaç tanesinin gösterileceğini belirler.
 
-        return view('admin.users.index', compact('users', 'search'));
+        $breadcrumbs = [
+            ['title' => 'Ana Sayfa', 'url' => route("admin.dashboard")],
+            ['title' => 'Kullanıcı Yönetimi', 'url' => null],
+        ];
+        return view('admin.users.index', compact('users', 'search', 'breadcrumbs'));
     }
 
     /**
@@ -39,7 +43,12 @@ class UserController extends Controller {
      */
     public function create()
     {
-        return view('admin.users.create');
+        $breadcrumbs = [
+            ['title' => 'Ana Sayfa', 'url' => route("admin.dashboard")],
+            ['title' => 'Kullanıcı Yönetimi', 'url' => route("admin.plays.index")],
+            ['title' => 'Yeni Kullanıcı', 'url' => null],
+        ];
+        return view('admin.users.create', compact('breadcrumbs'));
     }
 
     /**
@@ -63,7 +72,7 @@ class UserController extends Controller {
      */
     public function show(User $user)
     {
-        return view('admin.users.show', compact('user'));
+        //return view('admin.users.show', compact('user'));
     }
 
     /**
@@ -71,7 +80,12 @@ class UserController extends Controller {
      */
     public function edit(User $user)
     {
-        return view('admin.users.edit', compact('user'));
+        $breadcrumbs = [
+            ['title' => 'Ana Sayfa', 'url' => route("admin.dashboard")],
+            ['title' => 'Kullanıcı Yönetimi', 'url' => route("admin.plays.index")],
+            ['title' => $user->name . ' Düzenle', 'url' => null],
+        ];
+        return view('admin.users.edit', compact('user', 'breadcrumbs'));
     }
 
     /**

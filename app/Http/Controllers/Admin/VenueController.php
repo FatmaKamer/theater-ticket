@@ -25,8 +25,11 @@ class VenueController extends Controller
 
         $venues = Venue::search($search)->paginate(10);
 
-
-        return view('admin.venues.index', compact('venues', 'search'));
+        $breadcrumbs = [
+            ['title' => 'Ana Sayfa', 'url' => route("admin.dashboard")],
+            ['title' => 'Salon Yönetimi', 'url' => null],
+        ];
+        return view('admin.venues.index', compact('venues', 'search', 'breadcrumbs'));
     }
 
     /**
@@ -34,7 +37,12 @@ class VenueController extends Controller
      */
     public function create()
     {
-        return view('admin.venues.create');
+        $breadcrumbs = [
+            ['title' => 'Ana Sayfa', 'url' => route("admin.dashboard")],
+            ['title' => 'Salon Yönetimi', 'url' => route("admin.venue.index")],
+            ['title' => 'Yeni Salon', 'url' => null],
+        ];
+        return view('admin.venues.create', compact('breadcrumbs'));
     }
 
     /**
@@ -67,7 +75,12 @@ class VenueController extends Controller
      */
     public function edit(Venue $venue)
     {
-        return view('admin.venues.edit', compact('venue'));
+        $breadcrumbs = [
+            ['title' => 'Ana Sayfa', 'url' => route("admin.dashboard")],
+            ['title' => 'Salon Yönetimi', 'url' => route("admin.venue.index")],
+            ['title' => $venue->name . ' Düzenle', 'url' => null],
+        ];
+        return view('admin.venues.edit', compact('venue', 'breadcrumbs'));
     }
 
     /**

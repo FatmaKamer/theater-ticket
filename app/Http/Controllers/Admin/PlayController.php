@@ -24,7 +24,12 @@ class PlayController extends Controller
     {
         $search = request()->get('search');
         $plays = Play::with('venue')->search($search)->paginate(10);
-        return view('admin.plays.index', compact('plays', 'search'));
+
+        $breadcrumbs = [
+            ['title' => 'Ana Sayfa', 'url' => route("admin.dashboard")],
+            ['title' => 'Oyun Yönetimi', 'url' => null],
+        ];
+        return view('admin.plays.index', compact('plays', 'search', 'breadcrumbs'));
     }
 
     /**
@@ -33,7 +38,12 @@ class PlayController extends Controller
     public function create()
     {
         $venues = Venue::active()->get();
-        return view('admin.plays.create',compact('venues'));
+        $breadcrumbs = [
+            ['title' => 'Ana Sayfa', 'url' => route("admin.dashboard")],
+            ['title' => 'Oyun Yönetimi', 'url' => route("admin.plays.index")],
+            ['title' => 'Yeni Oyun', 'url' => null],
+        ];
+        return view('admin.plays.create',compact('venues', 'breadcrumbs'));
     }
 
     /**
@@ -113,7 +123,13 @@ class PlayController extends Controller
     public function edit(Play $play)
     {
         $venues = Venue::all();
-        return view('admin.plays.edit', compact('play', 'venues'));
+
+        $breadcrumbs = [
+            ['title' => 'Ana Sayfa', 'url' => route("admin.dashboard")],
+            ['title' => 'Oyun Yönetimi', 'url' => route("admin.plays.index")],
+            ['title' => $play->name . ' Düzenle', 'url' => null],
+        ];
+        return view('admin.plays.edit', compact('play', 'venues', 'breadcrumbs'));
     }
 
     /**
