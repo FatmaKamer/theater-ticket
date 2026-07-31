@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\PlayController;
 use App\Http\Controllers\Admin\TicketController;
+use App\Http\Controllers\UserTicketController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\UserController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\Admin\VenueController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 Route::get('/play/{play}', [HomeController::class, 'show'])->name('play.show');
+Route::get('/ticket/{ticket}', [App\Http\Controllers\UserTicketController::class, 'show'])->name('ticket.show');
 
 // Dashboard (giriş yapmış kullanıcılar için)
 Route::middleware(['auth'])->group(function () {
