@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\TicketMail;
 use App\Models\Play;
 use Illuminate\Http\Request;
 use App\Models\Seat;
 use App\Models\Order;
 use App\Models\TicketSale;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -137,7 +139,7 @@ class HomeController extends Controller
                 ->with('error', 'Oturum süresi doldu. Lütfen tekrar deneyin.');
         }
 
-        // 10 dakika kontrolü
+        // 1 dakika kontrolü
         if (now()->diffInMinutes($reservation['reserved_at']) > 1) {
             session()->forget('reserved_seats');
             return redirect()->route('play.seats', $play)
@@ -170,9 +172,11 @@ class HomeController extends Controller
                 'paid_at' => null,
             ]);
 
-            // 2. TicketSales oluştur
+
+
+            $createdTickets = collect(); //hata sebebi collect kullanmayıp standart php dizi kullanmammış.
             foreach ($seatIds as $seatId) {
-                TicketSale::create([
+                $ticket = TicketSale::create([
                     'play_id' => $play->id,
                     'seat_id' => $seatId,
                     'user_id' => auth()->id(),
@@ -180,9 +184,21 @@ class HomeController extends Controller
                     'price' => $play->ticket_price,
                     'status' => 'active',
                 ]);
+                $createdTickets->push($ticket);
             }
 
             DB::commit();
+
+
+                try {
+                    Mail::to(auth()->user()->email)->send(new TicketMail($createdTickets, $order, $play));
+                } catch (\Throwable $e) {
+                    \Log::error('Mail gönderilemedi: ' . $e->getMessage(), ['ticket_id' => $ticket->id]);
+                }
+
+
+            //dd(auth()->user()->email);
+
 
             // Rezervasyonu temizle
             session()->forget('reserved_seats');
