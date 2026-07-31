@@ -4,9 +4,6 @@
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h1 class="h3">Bilet Detayı #{{ $ticket->id }}</h1>
-            <a href="{{ route('admin.tickets.index') }}" class="btn-theater-outline">
-                <i class="fas fa-arrow-left"></i> Listeye Dön
-            </a>
         </div>
 
         <div class="row">
